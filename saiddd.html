@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <title>Календарь менеджера</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+    body {
+      margin: 0;
+      padding: 10px;
+      background-color: #f5f5f5;
+      color: #333;
+    }
+    #calendar {
+      border-collapse: collapse;
+      width: 100%;
+      background-color: #fff;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+    }
+    #calendar th {
+      border: 1px solid #ddd;
+      padding: 8px;
+      background-color: #4a90e2;
+      color: white;
+      font-weight: bold;
+    }
+    #calendar td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      min-width: 60px;
+      min-height: 90px;
+      vertical-align: top;
+      position: relative;
+      background-color: #ffffff;
+    }
+    .day-number {
+      position: absolute;
+      top: 5px;
+      left: 5px;
+      font-size: 12px;
+      color: #666;
+      font-weight: bold;
+    }
+    .note-section input, .note-section textarea {
+      width: 100%;
+      padding: 4px;
+      margin-bottom: 5px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 12px;
+    }
+    .checkbox-container {
+      font-size: 10px;
+      color: #666;
+    }
+    .button-container {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+    }
+    button {
+      padding: 8px 16px;
+      font-size: 14px;
+      border: none;
+      border-radius: 4px;
+      background-color: #4a90e2;
+      color: white;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <table id="calendar">
+    <thead>
+      <tr>
+        <th>Вс</th><th>Пн</th><th>Вт</th><th>Ср</th><th>Чт</th><th>Пт</th><th>Сб</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+  <div class="button-container">
+    <button id="clearAll">Очистить</button>
+    <button id="listAll">Список</button>
+  </div>
+  <div id="entryList"></div>
+
+  <script>
+    const tg = window.Telegram.WebApp;
+    tg.ready(); // Уведомляем Telegram, что приложение готово
+    tg.expand(); // Разворачиваем приложение на полный экран
+
+    const calendarTable = document.getElementById('calendar');
+    const clearAllButton = document.getElementById('clearAll');
+    const listAllButton = document.getElementById('listAll');
+    const entryList = document.getElementById('entryList');
+    const monthNames = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"];
+
+    // Устанавливаем текущий месяц и год
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = today.getMonth();
+    generateCalendar(year, month);
+
+    // Генерация календаря
+    function generateCalendar(year, month) {
+      const tbody = calendarTable.querySelector('tbody');
+      tbody.innerHTML = '';
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+      const startingDay = new Date(year, month, 1).getDay();
+      const numRows = Math.ceil((startingDay + daysInMonth) / 7);
+      let day = 1;
+
+      for (let i = 0; i < numRows; i++) {
+        const row = document.createElement('tr');
+        for (let j = 0; j < 7; j++) {
+          const cell = document.createElement('td');
+          if (i === 0 && j < startingDay || day > daysInMonth) {
+            // Пустая ячейка
+          } else {
+            const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+            const note = localStorage.getItem(`calendar_${dateStr}`) || '';
+            let bandName = '', price = '', notes = '', accountChecked = false, soundChecked = false;
+            if (note) {
+              const parts = note.split(', ');
+              bandName = parts[0] || '';
+              for (let part of parts) {
+                if (part.match(/(\d+)к, руб/)) price = part.replace('к, руб', '');
+                else if (part === 'счёт') accountChecked = true;
+                else if (part === 'звук') soundChecked = true;
+                else if (!part.match(/к, руб$/) && part !== 'счёт' && part !== 'звук') notes = part;
+              }
+            }
+            cell.innerHTML = `
+              <div class="day-number">${day}</div>
+              <div class="note-section">
+                <input type="text" class="band-name" placeholder="Группа" value="${bandName}">
+                <input type="text" class="price" placeholder="Цена (тыс. руб)" value="${price}">
+                <div class="checkbox-container">
+                  <label><input type="checkbox" id="account" ${accountChecked ? 'checked' : ''}> Счёт</label>
+                  <label><input type="checkbox" id="sound" ${soundChecked ? 'checked' : ''}> Звук</label>
+                </div>
+                <textarea class="notes" placeholder="Заметки">${notes}</textarea>
+              </div>`;
+            cell.setAttribute('data-date', dateStr);
+            day++;
+          }
+          row.appendChild(cell);
+        }
+        tbody.appendChild(row);
+      }
+    }
+
+    // Сохранение данных при вводе
+    calendarTable.addEventListener('input', (e) => {
+      const td = e.target.closest('td');
+      if (!td) return;
+      const date = td.getAttribute('data-date');
+      const bandName = td.querySelector('.band-name').value || '';
+      const price = td.querySelector('.price').value || '';
+      const notes = td.querySelector('.notes').value || '';
+      const accountChecked = td.querySelector('#account').checked;
+      const soundChecked = td.querySelector('#sound').checked;
+      let note = '';
+      if (bandName || price || notes || accountChecked || soundChecked) {
+        note = bandName;
+        if (price) note += ', ' + price + 'к, руб';
+        if (notes) note += ', ' + notes;
+        if (accountChecked) note += ', счёт';
+        if (soundChecked) note += ', звук';
+      }
+      localStorage.setItem(`calendar_${date}`, note);
+    });
+
+    // Очистка всех записей
+    clearAllButton.addEventListener('click', () => {
+      tg.showConfirm('Очистить все записи?', (confirmed) => {
+        if (confirmed) {
+          for (let key in localStorage) {
+            if (key.startsWith('calendar_')) localStorage.removeItem(key);
+          }
+          generateCalendar(year, month);
+        }
+      });
+    });
+
+    // Вывод списка записей
+    listAllButton.addEventListener('click', () => {
+      entryList.innerHTML = '';
+      const keys = Object.keys(localStorage).filter(key => key.startsWith('calendar_'));
+      keys.sort();
+      const ul = document.createElement('ul');
+      keys.forEach(key => {
+        const note = localStorage.getItem(key);
+        if (note.trim() !== '') {
+          const dateStr = key.replace('calendar_', '');
+          const [year, month, day] = dateStr.split('-').map(Number);
+          const formattedDate = `${day} ${monthNames[month - 1]}`;
+          const li = document.createElement('li');
+          li.textContent = `${formattedDate}: ${note}`;
+          ul.appendChild(li);
+        }
+      });
+      entryList.appendChild(ul);
+    });
+  </script>
+</body>
+</html>
