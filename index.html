@@ -10,9 +10,8 @@
     body {
       margin: 0;
       padding: 20px;
-      background-color: #f5f5f5;
+      background-color: #e7e7e7;
       color: #333;
-      transition: background-color 0.5s ease;
     }
     header {
       margin-bottom: 20px;
@@ -41,7 +40,7 @@
       transform: scale(1.05);
     }
     #elmuchoButton {
-      background-color: #ff5733; /* Оранжевый для El'Mucho */
+      background-color: #ff5733;
       color: white;
     }
     #elmuchoButton:hover {
@@ -51,7 +50,7 @@
       box-shadow: 0 0 0 3px rgba(255, 87, 51, 0.5);
     }
     #cleverButton {
-      background-color: #2a7a39; /* Тёмно-зелёный для Clever */
+      background-color: #2a7a39;
       color: white;
     }
     #cleverButton:hover {
@@ -86,6 +85,62 @@
     select:focus {
       box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.3);
     }
+    .checkbox-header {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-bottom: 15px;
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .toggle-text-view {
+      display: flex;
+      align-items: center;
+      font-size: 16px;
+      color: #333;
+      transition: color 0.5s ease;
+    }
+    .toggle-text-view input[type="checkbox"] {
+      appearance: none;
+      width: 24px;
+      height: 24px;
+      background-color: #fff;
+      border: 2px solid #666;
+      border-radius: 6px;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.3s ease;
+      margin-right: 10px;
+    }
+    .toggle-text-view input[type="checkbox"]:checked {
+      background-color: #666;
+      border-color: #666;
+    }
+    .toggle-text-view input[type="checkbox"]:checked::after {
+      content: '✓';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+    }
+    .toggle-text-view input[type="checkbox"]:hover {
+      border-color: #999;
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+    }
+    .elmucho .toggle-text-view input[type="checkbox"]:checked {
+      background-color: #ff5733;
+      border-color: #ff5733;
+    }
+    .clever .toggle-text-view input[type="checkbox"]:checked {
+      background-color: #2a7a39;
+      border-color: #2a7a39;
+    }
+    body.elmucho .toggle-text-view { color: #cc3300; }
+    body.clever .toggle-text-view { color: #1f5b2b; }
     #calendar {
       border-collapse: collapse;
       width: 100%;
@@ -108,6 +163,7 @@
       padding: 10px;
       min-width: 120px;
       min-height: 120px;
+      height: 120px;
       vertical-align: top;
       position: relative;
       background-color: #ffffff;
@@ -135,6 +191,8 @@
     }
     .note-section {
       margin-top: 20px;
+      min-height: 80px;
+      word-wrap: break-word;
     }
     .band-name, .price, .notes {
       width: 100%;
@@ -146,9 +204,16 @@
       outline: none;
       transition: border-color 0.5s ease;
     }
+    .notes {
+      color: #999;
+      background-color: rgba(255, 255, 255, 0);
+    }
     .band-name:focus, .price:focus, .notes:focus {
       border-color: inherit;
       box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    }
+    .notes:focus {
+      box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
     }
     .checkbox-container {
       margin-top: 5px;
@@ -169,20 +234,59 @@
       padding: 15px;
       max-width: 1200px;
       margin: 0 auto;
+      align-items: center;
+      gap: 15px;
     }
-    button {
-      padding: 10px 20px;
+    .button-container button {
+      padding: 12px 24px;
       font-size: 16px;
+      font-weight: bold;
       border: none;
-      border-radius: 4px;
+      border-radius: 12px;
       cursor: pointer;
-      transition: background-color 0.3s, transform 0.3s, scale 0.3s;
+      background-color: #fff;
+      color: #333;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
     }
-    button:hover {
-      transform: translateY(-2px) scale(1.05);
+    .button-container button::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: width 0.6s ease, height 0.6s ease;
     }
-    button:active {
-      transform: translateY(0) scale(0.98);
+    .button-container button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    }
+    .button-container button:hover::before {
+      width: 300px;
+      height: 300px;
+    }
+    .button-container button:active {
+      transform: scale(0.95);
+    }
+    .elmucho .button-container button {
+      background-color: #ff5733;
+      color: white;
+    }
+    .elmucho .button-container button:hover {
+      background-color: #e64a2a;
+    }
+    .clever .button-container button {
+      background-color: #2a7a39;
+      color: #ffd700;
+    }
+    .clever .button-container button:hover {
+      background-color: #1f5b2b;
     }
     #entryList {
       margin-top: 20px;
@@ -192,6 +296,9 @@
       border-radius: 8px;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
       transition: background-color 0.5s ease;
+    }
+    #entryList > div {
+      margin-bottom: 20px;
     }
     #entryList ul {
       list-style-type: none;
@@ -208,129 +315,111 @@
       border-bottom: none;
     }
     @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
-
-    /* Стили для El'Mucho (Латиноамериканский бар) */
-    body.elmucho {
-      background-color: #ffe8d6; /* Тёплый кремовый фон */
-    }
-    #calendar.elmucho {
-      background-color: #ffebd9; /* Светло-оранжевый фон */
-      box-shadow: 0 2px 10px rgba(255, 87, 51, 0.3);
-    }
-    #calendar.elmucho th {
-      background-color: #ff5733; /* Яркий оранжевый */
-      color: #fff;
-    }
-    #calendar.elmucho td {
-      background-color: #fff5e6; /* Очень светло-оранжевый */
-    }
-    #calendar.elmucho td.has-note {
-      background-color: #ffd1b3; /* Лёгкий оранжевый для заметок */
-    }
-    #calendar.elmucho td:hover {
-      background-color: #ffcc99; /* Более насыщенный при наведении */
-    }
-    #calendar.elmucho .day-number {
-      color: #cc3300; /* Тёмно-красный */
-    }
-    #calendar.elmucho .band-name:focus, #calendar.elmucho .price:focus, #calendar.elmucho .notes:focus {
-      border-color: #ff5733; /* Оранжевая обводка при фокусе */
-    }
-    #calendar.elmucho .checkbox-container label {
-      color: #336600; /* Тёмно-зелёный акцент */
-    }
-    .elmucho .button-container button {
-      background-color: #ff5733;
-      color: #fff;
-    }
-    .elmucho .button-container button:hover {
-      background-color: #e64a2a;
-    }
-    #entryList.elmucho {
-      background-color: #ffebd9;
-    }
-    #entryList.elmucho li {
-      border-color: #ff9966; /* Оранжевая граница */
-    }
-
-    /* Стили для Clever (Ирландский паб) */
-    body.clever {
-      background-color: #e6f0e6; /* Светло-зелёный фон */
-    }
-    #calendar.clever {
-      background-color: #f0f7f0; /* Очень светло-зелёный фон */
-      box-shadow: 0 2px 10px rgba(42, 122, 57, 0.3);
-    }
-    #calendar.clever th {
-      background-color: #2a7a39; /* Тёмно-зелёный */
-      color: #ffd700; /* Золотой текст */
-    }
-    #calendar.clever td {
-      background-color: #f7faf7; /* Почти белый с зелёным оттенком */
-    }
-    #calendar.clever td.has-note {
-      background-color: #cce6cc; /* Лёгкий зелёный для заметок */
-    }
-    #calendar.clever td:hover {
-      background-color: #b3d9b3; /* Более насыщенный зелёный при наведении */
-    }
-    #calendar.clever .day-number {
-      color: #1f5b2b; /* Тёмно-зелёный */
-    }
-    #calendar.clever .band-name:focus, #calendar.clever .price:focus, #calendar.clever .notes:focus {
-      border-color: #2a7a39; /* Тёмно-зелёная обводка при фокусе */
-    }
-    #calendar.clever .checkbox-container label {
-      color: #8a6d3b; /* Коричневый акцент */
-    }
-    .clever .button-container button {
-      background-color: #2a7a39;
-      color: #ffd700; /* Золотой текст */
-    }
-    .clever .button-container button:hover {
-      background-color: #1f5b2b;
-    }
-    #entryList.clever {
-      background-color: #f0f7f0;
-    }
-    #entryList.clever li {
-      border-color: #8bc34a; /* Светло-зелёная граница */
-    }
-
+    body.elmucho { /* background-color удален */ }
+    #calendar.elmucho { background-color: #ffebd9; box-shadow: 0 2px 10px rgba(255, 87, 51, 0.3); }
+    #calendar.elmucho th { background-color: #ff5733; color: #fff; }
+    #calendar.elmucho td { background-color: #fff5e6; }
+    #calendar.elmucho td.has-note { background-color: #ffd1b3; }
+    #calendar.elmucho td:hover { background-color: #ffcc99; }
+    #calendar.elmucho .day-number { color: #cc3300; }
+    #calendar.elmucho .band-name:focus, #calendar.elmucho .price:focus, #calendar.elmucho .notes:focus { border-color: #ff5733; }
+    #calendar.elmucho .checkbox-container label { color: #336600; }
+    #entryList.elmucho { background-color: #ffebd9; }
+    #entryList.elmucho li { border-color: #ff9966; }
+    body.clever { /* background-color удален */ }
+    #calendar.clever { background-color: #f0f7f0; box-shadow: 0 2px 10px rgba(42, 122, 57, 0.3); }
+    #calendar.clever th { background-color: #2a7a39; color: #ffd700; }
+    #calendar.clever td { background-color: #f7faf7; }
+    #calendar.clever td.has-note { background-color: #cce6cc; }
+    #calendar.clever td:hover { background-color: #b3d9b3; }
+    #calendar.clever .day-number { color: #1f5b2b; }
+    #calendar.clever .band-name:focus, #calendar.clever .price:focus, #calendar.clever .notes:focus { border-color: #2a7a39; }
+    #calendar.clever .checkbox-container label { color: #8a6d3b; }
+    #entryList.clever { background-color: #f0f7f0; }
+    #entryList.clever li { border-color: #8bc34a; }
     @media (max-width: 768px) {
       body { padding: 10px; }
-      header { margin-bottom: 15px; flex-wrap: wrap; gap: 10px; }
+      header { flex-wrap: wrap; gap: 10px; justify-content: center; }
       .bar-button { padding: 8px 16px; font-size: 14px; }
-      select { padding: 6px 12px; font-size: 14px; margin: 0 5px; min-width: 120px; }
-      #calendar { max-width: 100%; box-shadow: none; }
-      #calendar th, #calendar td { padding: 8px; min-width: 80px; min-height: 100px; }
-      #calendar td:hover { transform: none; }
-      .day-number { font-size: 12px; }
-      .band-name, .price, .notes { padding: 4px; font-size: 12px; }
-      .checkbox-container label { font-size: 12px; }
-      .button-container { padding: 10px; }
-      button { padding: 8px 16px; font-size: 14px; }
+      select { padding: 8px 12px; font-size: 14px; min-width: 120px; margin: 5px; }
+      .checkbox-header { flex-direction: column; gap: 10px; }
+      #calendar {
+        display: block;
+        overflow-x: auto;
+      }
+      #calendar th {
+        padding: 8px;
+        font-size: 12px;
+        min-width: 80px;
+      }
+      #calendar td {
+        min-width: 100px;
+        min-height: 150px;
+        height: 150px;
+        padding: 15px;
+      }
+      .day-number { font-size: 16px; }
+      .note-section { margin-top: 25px; min-height: 100px; }
+      .band-name, .price, .notes { font-size: 14px; padding: 8px; }
+      .checkbox-container label { font-size: 14px; }
+      .button-container { 
+        flex-direction: column; 
+        gap: 10px; 
+        padding: 10px; 
+      }
+      .button-container button { 
+        padding: 10px 20px; 
+        font-size: 14px; 
+        width: 100%; 
+      }
       #entryList { padding: 10px; margin: 15px auto; }
-      #entryList li { padding: 8px; font-size: 14px; }
+      #entryList li { font-size: 14px; padding: 8px; }
     }
     @media (max-width: 480px) {
-      #calendar th, #calendar td { min-width: 60px; min-height: 90px; }
-      .band-name, .price, .notes { font-size: 10px; padding: 3px; }
-      .checkbox-container label { font-size: 10px; }
-      .button-container { flex-direction: column; padding: 8px; gap: 10px; }
-      button { padding: 6px 12px; font-size: 12px; width: 100%; }
-      #entryList li { font-size: 12px; padding: 6px; }
-      select { min-width: 100px; }
-      .bar-button { padding: 6px 12px; font-size: 12px; width: auto; }
+      #calendar {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 15px;
+        padding: 10px;
+      }
+      #calendar thead { display: none; }
+      #calendar td {
+        min-height: 180px;
+        height: 180px;
+        padding: 20px;
+        border: none;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+      }
+      .note-section { min-height: 120px; }
+      header { justify-content: center; }
+      .bar-button { width: 100%; max-width: 200px; padding: 6px 12px; font-size: 12px; }
+      select { width: 100%; max-width: 200px; }
+      .button-container button {
+        font-size: 12px;
+      }
+    }
+    .notes-window {
+      display: none;
+      background: white;
+      padding: 20px;
+      border: 1px solid #ccc;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+    .notes-content {
+      border: 1px solid #ddd;
+      padding: 10px;
+      min-height: 100px;
+      width: 100%;
+      margin-bottom: 10px;
+      overflow: auto;
+    }
+    .notes-window button {
+      margin-right: 10px;
     }
   </style>
 </head>
@@ -343,20 +432,47 @@
     </div>
     <button id="cleverButton" class="bar-button">Clever</button>
   </header>
+  <div class="checkbox-header">
+    <div class="toggle-text-view">
+      <label><input type="checkbox" id="toggleTextView"> Показать как текст</label>
+    </div>
+    <div class="toggle-text-view">
+      <label><input type="checkbox" id="toggleBandsOnly"> Показать только группы</label>
+    </div>
+  </div>
   <table id="calendar">
     <thead>
       <tr>
-        <th>Вс</th><th>Пн</th><th>Вт</th><th>Ср</th><th>Чт</th><th>Пт</th><th>Сб</th>
+        <th>Пн</th><th>Вт</th><th>Ср</th><th>Чт</th><th>Пт</th><th>Сб</th><th>Вс</th>
       </tr>
     </thead>
     <tbody id="calendarBody"></tbody>
   </table>
   <div class="button-container">
     <button id="clearAll">Очистить все записи</button>
-    <button id="listAll">Вывести все записи</button>
     <button id="listPoster">Вывести в формате афиши</button>
+    <button id="openEditableNotes">Открыть редактируемые заметки</button>
+    <button id="openLockedNotes">Открыть заблокированные заметки</button>
   </div>
-  <div id="entryList"></div>
+  <div id="entryList">
+    <div id="editableNotesWindow" class="notes-window" style="display: none;">
+      <div id="editableNotesContent" class="notes-content" contenteditable="true">
+        Введите ваши редактируемые заметки здесь...
+      </div>
+      <button id="closeEditableNotes">Закрыть</button>
+    </div>
+    <div id="lockedNotesWindow" class="notes-window" style="display: none;">
+      <div id="lockedNotesContent" class="notes-content" contenteditable="false">
+        Введите ваши заблокированные заметки здесь...
+      </div>
+      <div>
+        <label><input type="checkbox" id="lockNotes" checked> Заблокировать редактирование</label>
+        <button id="copyLockedNotes">Скопировать</button>
+        <button id="closeLockedNotes">Закрыть</button>
+      </div>
+    </div>
+  </div>
+
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const monthSelect = document.getElementById('monthSelect');
@@ -366,18 +482,28 @@
       const elmuchoButton = document.getElementById('elmuchoButton');
       const cleverButton = document.getElementById('cleverButton');
       const clearAllButton = document.getElementById('clearAll');
-      const listAllButton = document.getElementById('listAll');
+      const toggleTextViewCheckbox = document.getElementById('toggleTextView');
+      const toggleBandsOnlyCheckbox = document.getElementById('toggleBandsOnly');
       const listPosterButton = document.getElementById('listPoster');
       const entryList = document.getElementById('entryList');
-      const body = document.body;
+
+      const openEditableNotesButton = document.getElementById('openEditableNotes');
+      const openLockedNotesButton = document.getElementById('openLockedNotes');
+      const editableNotesWindow = document.getElementById('editableNotesWindow');
+      const lockedNotesWindow = document.getElementById('lockedNotesWindow');
+      const editableNotesContent = document.getElementById('editableNotesContent');
+      const lockedNotesContent = document.getElementById('lockedNotesContent');
+      const lockNotesCheckbox = document.getElementById('lockNotes');
+      const copyLockedNotesButton = document.getElementById('copyLockedNotes');
+      const closeEditableNotesButton = document.getElementById('closeEditableNotes');
+      const closeLockedNotesButton = document.getElementById('closeLockedNotes');
 
       const months = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"];
-      const weekdays = ["Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"];
+      const weekdays = ["Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота", "Воскресенье"];
 
-      let currentBar = 'elmucho'; // По умолчанию El'Mucho
+      let currentBar = 'elmucho';
       updateTheme(currentBar);
 
-      // Заполнение выбора месяцев
       months.forEach((name, index) => {
         const option = document.createElement('option');
         option.value = index;
@@ -385,7 +511,6 @@
         monthSelect.appendChild(option);
       });
 
-      // Заполнение выбора годов
       const currentYear = new Date().getFullYear();
       for (let i = currentYear - 10; i <= currentYear + 10; i++) {
         const option = document.createElement('option');
@@ -394,20 +519,18 @@
         yearSelect.appendChild(option);
       };
 
-      // Установка начальных значений и генерация календаря
       const today = new Date();
       yearSelect.value = today.getFullYear();
       monthSelect.value = today.getMonth();
       generateCalendar(today.getFullYear(), today.getMonth());
 
-      // Переключение баров
       elmuchoButton.addEventListener('click', () => {
         currentBar = 'elmucho';
         elmuchoButton.classList.add('active');
         cleverButton.classList.remove('active');
         updateTheme(currentBar);
         generateCalendar(parseInt(yearSelect.value), parseInt(monthSelect.value));
-        entryList.innerHTML = '';
+        clearPosterContent(); // Очистка при смене бара
       });
 
       cleverButton.addEventListener('click', () => {
@@ -416,14 +539,12 @@
         elmuchoButton.classList.remove('active');
         updateTheme(currentBar);
         generateCalendar(parseInt(yearSelect.value), parseInt(monthSelect.value));
-        entryList.innerHTML = '';
+        clearPosterContent(); // Очистка при смене бара
       });
 
-      // Обработчики событий для выбора месяца и года
       monthSelect.addEventListener('change', () => generateCalendar(parseInt(yearSelect.value), parseInt(monthSelect.value)));
       yearSelect.addEventListener('change', () => generateCalendar(parseInt(yearSelect.value), parseInt(monthSelect.value)));
 
-      // Сохранение заметок
       calendarBody.addEventListener('input', (e) => {
         if (e.target.classList.contains('band-name') || e.target.classList.contains('price') || e.target.classList.contains('notes')) {
           if (e.target.classList.contains('price')) {
@@ -439,7 +560,6 @@
         }
       });
 
-      // Очистка записей текущего бара
       clearAllButton.addEventListener('click', () => {
         if (confirm('Вы уверены, что хотите очистить все записи для текущего бара?')) {
           const prefix = `calendar_${currentBar}_`;
@@ -447,125 +567,171 @@
             .filter(key => key.startsWith(prefix))
             .forEach(key => localStorage.removeItem(key));
           generateCalendar(parseInt(yearSelect.value), parseInt(monthSelect.value));
-          entryList.innerHTML = '';
+          clearPosterContent();
         }
       });
 
-      // Вывод всех записей
-      listAllButton.addEventListener('click', () => {
-        entryList.innerHTML = '';
-        const prefix = `calendar_${currentBar}_`;
-        const keys = Object.keys(localStorage).filter(key => key.startsWith(prefix));
-        if (keys.length === 0) {
-          entryList.textContent = 'Нет записей для вывода.';
-          return;
-        }
-        keys.sort();
-        const ul = document.createElement('ul');
-        let hasEntries = false;
-        keys.forEach(key => {
-          const note = JSON.parse(localStorage.getItem(key) || '{}');
-          if (note.bandName || note.price || note.notes || note.account || note.sound) {
-            const dateStr = key.replace(prefix, '');
-            const [year, month, day] = dateStr.split('-').map(Number);
-            const formattedDate = `${day} ${months[month - 1]}`;
-            const noteText = [
-              note.bandName || '',
-              note.price ? `${note.price}к` : '',
-              note.notes || '',
-              note.account ? 'Счёт' : '',
-              note.sound ? 'Звук' : ''
-            ].filter(Boolean).join(', ');
-            const li = document.createElement('li');
-            li.textContent = `${formattedDate}: ${noteText}`;
-            ul.appendChild(li);
-            hasEntries = true;
-          }
-        });
-        if (hasEntries) {
-          entryList.appendChild(ul);
-        } else {
-          entryList.textContent = 'Нет заполненных записей.';
-        }
+      toggleTextViewCheckbox.addEventListener('change', () => {
+        generateCalendar(parseInt(yearSelect.value), parseInt(monthSelect.value));
+        clearPosterContent(); // Очистка при переключении режима
       });
 
-      // Вывод в формате афиши
+      toggleBandsOnlyCheckbox.addEventListener('change', () => {
+        generateCalendar(parseInt(yearSelect.value), parseInt(monthSelect.value));
+      });
+
       listPosterButton.addEventListener('click', () => {
+        const editableNotesWindow = document.getElementById('editableNotesWindow');
+        const lockedNotesWindow = document.getElementById('lockedNotesWindow');
         entryList.innerHTML = '';
         const prefix = `calendar_${currentBar}_`;
         const keys = Object.keys(localStorage).filter(key => key.startsWith(prefix));
         if (keys.length === 0) {
           entryList.textContent = 'Нет записей для вывода.';
-          return;
-        }
-        keys.sort();
-        const ul = document.createElement('ul');
-        let hasEntries = false;
-        keys.forEach(key => {
-          const note = JSON.parse(localStorage.getItem(key) || '{}');
-          if (note.bandName) {
-            const dateStr = key.replace(prefix, '');
-            const [year, month, day] = dateStr.split('-').map(Number);
-            const date = new Date(year, month - 1, day);
-            const dayOfWeek = weekdays[date.getDay()];
-            const formattedDate = `${day} ${months[month - 1]}`;
-            const posterText = `🌶️ ${currentBar === 'elmucho' ? "El'Mucho" : 'Clever'}\n\n${formattedDate}\n${dayOfWeek}\n22:00\nВход свободный\nЛенина, 41\n\n${note.bandName}`;
-            const li = document.createElement('li');
-            li.textContent = posterText;
-            ul.appendChild(li);
-            hasEntries = true;
-          }
-        });
-        if (hasEntries) {
-          entryList.appendChild(ul);
         } else {
-          entryList.textContent = 'Нет записей с названиями групп.';
+          keys.sort();
+          const ul = document.createElement('ul');
+          let hasEntries = false;
+          keys.forEach(key => {
+            const note = JSON.parse(localStorage.getItem(key) || '{}');
+            if (note.bandName) {
+              const dateStr = key.replace(prefix, '');
+              const [year, month, day] = dateStr.split('-').map(Number);
+              const date = new Date(year, month - 1, day);
+              const dayOfWeek = weekdays[date.getDay()];
+              const formattedDate = `${day} ${months[month - 1]}`;
+              const posterText = `🌶️ ${currentBar === 'elmucho' ? "El'Mucho" : 'Clever'}\n\n${formattedDate}\n${dayOfWeek}\n22:00\nВход свободный\nЛенина, 41\n\n${note.bandName}`;
+              const li = document.createElement('li');
+              li.textContent = posterText;
+              ul.appendChild(li);
+              hasEntries = true;
+            }
+          });
+          if (hasEntries) {
+            entryList.appendChild(ul);
+          } else {
+            entryList.textContent = 'Нет записей с названиями групп.';
+          }
         }
+        entryList.appendChild(editableNotesWindow);
+        entryList.appendChild(lockedNotesWindow);
+        // Скрываем окна заметок после вывода афиши
+        editableNotesWindow.style.display = 'none';
+        lockedNotesWindow.style.display = 'none';
       });
 
-      // Функция сохранения заметок
+      function clearPosterContent() {
+        const editableNotesWindow = document.getElementById('editableNotesWindow');
+        const lockedNotesWindow = document.getElementById('lockedNotesWindow');
+        entryList.innerHTML = '';
+        entryList.appendChild(editableNotesWindow);
+        entryList.appendChild(lockedNotesWindow);
+        // Сохраняем текущее состояние отображения окон
+        const wasEditableOpen = editableNotesWindow.style.display === 'block';
+        const wasLockedOpen = lockedNotesWindow.style.display === 'block';
+        editableNotesWindow.style.display = wasEditableOpen ? 'block' : 'none';
+        lockedNotesWindow.style.display = wasLockedOpen ? 'block' : 'none';
+      }
+
+      openEditableNotesButton.addEventListener('click', () => {
+        clearPosterContent();
+        editableNotesWindow.style.display = 'block';
+        lockedNotesWindow.style.display = 'none';
+      });
+
+      openLockedNotesButton.addEventListener('click', () => {
+        clearPosterContent();
+        lockedNotesWindow.style.display = 'block';
+        editableNotesWindow.style.display = 'none';
+      });
+
+      lockNotesCheckbox.addEventListener('change', () => {
+        lockedNotesContent.contentEditable = !lockNotesCheckbox.checked;
+      });
+
+      copyLockedNotesButton.addEventListener('click', () => {
+        const text = lockedNotesContent.innerText;
+        navigator.clipboard.writeText(text).then(() => {
+          alert('Текст скопирован в буфер обмена');
+        });
+      });
+
+      closeEditableNotesButton.addEventListener('click', () => {
+        editableNotesWindow.style.display = 'none';
+      });
+
+      closeLockedNotesButton.addEventListener('click', () => {
+        lockedNotesWindow.style.display = 'none';
+      });
+
       function saveNote(td) {
         if (!td) return;
         const date = td.getAttribute('data-date');
         const noteData = {
-          bandName: td.querySelector('.band-name').value || '',
-          price: td.querySelector('.price').value || '',
-          notes: td.querySelector('.notes').value || '',
-          account: td.querySelector('#account').checked,
-          sound: td.querySelector('#sound').checked
+          bandName: td.querySelector('.band-name') ? td.querySelector('.band-name').value : '',
+          price: td.querySelector('.price') ? td.querySelector('.price').value : '',
+          notes: td.querySelector('.notes') ? td.querySelector('.notes').value : '',
+          account: td.querySelector('#account') ? td.querySelector('#account').checked : false,
+          sound: td.querySelector('#sound') ? td.querySelector('#sound').checked : false,
+          check: td.querySelector('#check') ? td.querySelector('#check').checked : false
         };
         localStorage.setItem(`calendar_${currentBar}_${date}`, JSON.stringify(noteData));
         td.classList.toggle('has-note', Object.values(noteData).some(val => val));
       }
 
-      // Функция генерации календаря
       function generateCalendar(year, month) {
         calendarBody.innerHTML = '';
         const daysInMonth = new Date(year, month + 1, 0).getDate();
-        const startingDay = new Date(year, month, 1).getDay();
+        const firstDay = new Date(year, month, 1).getDay();
+        const startingDay = firstDay === 0 ? 6 : firstDay - 1;
         const numRows = Math.ceil((startingDay + daysInMonth) / 7);
         let day = 1;
+
+        const textView = toggleTextViewCheckbox.checked;
+        const bandsOnly = toggleBandsOnlyCheckbox.checked;
 
         for (let i = 0; i < numRows; i++) {
           const row = document.createElement('tr');
           for (let j = 0; j < 7; j++) {
             const cell = document.createElement('td');
             if (i === 0 && j < startingDay || day > daysInMonth) {
-              // Пустая ячейка
             } else {
               const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
               const note = JSON.parse(localStorage.getItem(`calendar_${currentBar}_${dateStr}`) || '{}');
-              cell.innerHTML = `
-                <div class="day-number">${day}</div>
-                <div class="note-section">
-                  <input type="text" class="band-name" placeholder="Название группы" value="${note.bandName || ''}">
-                  <input type="text" class="price" placeholder="Цена (тыс. руб)" value="${note.price || ''}">
-                  <div class="checkbox-container">
-                    <label><input type="checkbox" id="account" ${note.account ? 'checked' : ''}> Счёт</label>
-                    <label><input type="checkbox" id="sound" ${note.sound ? 'checked' : ''}> Звук</label>
-                  </div>
-                  <input type="text" class="notes" placeholder="Заметки" value="${note.notes || ''}">
-                </div>`;
+              if (textView) {
+                const bandName = note.bandName || '';
+                if (bandsOnly) {
+                  cell.innerHTML = `
+                    <div class="day-number">${day}</div>
+                    <div class="note-section">${bandName}</div>`;
+                } else {
+                  const otherDetails = [
+                    note.price ? `${note.price}к` : '',
+                    note.account ? 'Счёт' : '',
+                    note.sound ? 'Звук' : '',
+                    note.check ? 'Чек' : ''
+                  ].filter(Boolean).join(', ');
+                  const noteText = bandName ? `${bandName}\n${otherDetails}` : otherDetails;
+                  cell.innerHTML = `
+                    <div class="day-number">${day}</div>
+                    <div class="note-section">${noteText.replace(/\n/g, '<br>') || ''}</div>`;
+                }
+              } else {
+                cell.innerHTML = `
+                  <div class="day-number">${day}</div>
+                  <div class="note-section">
+                    <input type="text" class="band-name" placeholder="Название группы" value="${note.bandName || ''}">
+                    ${bandsOnly ? '' : `
+                      <input type="text" class="price" placeholder="Цена (тыс. руб)" value="${note.price || ''}">
+                      <div class="checkbox-container">
+                        <label><input type="checkbox" id="account" ${note.account ? 'checked' : ''}> Счёт</label>
+                        <label><input type="checkbox" id="sound" ${note.sound ? 'checked' : ''}> Звук</label>
+                        <label><input type="checkbox" id="check" ${note.check ? 'checked' : ''}> Чек</label>
+                      </div>
+                      <input type="text" class="notes" placeholder="Заметки" value="${note.notes || ''}">
+                    `}
+                  </div>`;
+              }
               cell.setAttribute('data-date', dateStr);
               cell.style.setProperty('--index', i * 7 + j);
               if (Object.values(note).some(val => val)) cell.classList.add('has-note');
@@ -577,17 +743,17 @@
         }
       }
 
-      // Функция обновления темы
       function updateTheme(bar) {
-        body.classList.remove('elmucho', 'clever');
+        document.body.classList.remove('elmucho', 'clever');
         calendar.classList.remove('elmucho', 'clever');
         entryList.classList.remove('elmucho', 'clever');
         document.querySelector('.button-container').classList.remove('elmucho', 'clever');
-
-        body.classList.add(bar);
+        document.querySelector('.checkbox-header').classList.remove('elmucho', 'clever');
+        document.body.classList.add(bar);
         calendar.classList.add(bar);
         entryList.classList.add(bar);
         document.querySelector('.button-container').classList.add(bar);
+        document.querySelector('.checkbox-header').classList.add(bar);
       }
     });
   </script>
