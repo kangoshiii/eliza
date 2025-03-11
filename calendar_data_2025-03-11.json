@@ -45,6 +45,15 @@
       "check": false,
       "eliza": false
     },
+    "calendar_elmucho_2025-03-11": {
+      "bandName": "DJ 100LOVE",
+      "price": "3",
+      "notes": "",
+      "account": false,
+      "sound": false,
+      "check": false,
+      "eliza": false
+    },
     "calendar_elmucho_2025-03-14": {
       "bandName": "DJ DANILA BERDYSHEV",
       "price": "2",
@@ -57,6 +66,24 @@
     "calendar_elmucho_2025-03-15": {
       "bandName": "Да, дорогая",
       "price": "8",
+      "notes": "",
+      "account": false,
+      "sound": false,
+      "check": false,
+      "eliza": false
+    },
+    "calendar_elmucho_2025-03-17": {
+      "bandName": "DJ 100LOVE",
+      "price": "3",
+      "notes": "",
+      "account": false,
+      "sound": false,
+      "check": false,
+      "eliza": false
+    },
+    "calendar_elmucho_2025-03-05": {
+      "bandName": "Bootleggers",
+      "price": "35",
       "notes": "",
       "account": false,
       "sound": false,
